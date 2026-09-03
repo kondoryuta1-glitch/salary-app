@@ -7,7 +7,7 @@ function load() {
   try {
     return JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
   } catch {
-    return { members: {}, requests: {} };
+    return { requests: {} };
   }
 }
 
@@ -19,23 +19,6 @@ function save(db) {
 const db = load();
 
 module.exports = {
-  getMembers(teamId) {
-    return db.members[teamId] || [];
-  },
-
-  addMember(teamId, userId) {
-    db.members[teamId] = db.members[teamId] || [];
-    if (!db.members[teamId].includes(userId)) {
-      db.members[teamId].push(userId);
-      save(db);
-    }
-  },
-
-  removeMember(teamId, userId) {
-    db.members[teamId] = (db.members[teamId] || []).filter((id) => id !== userId);
-    save(db);
-  },
-
   createRequest(request) {
     db.requests[request.id] = request;
     save(db);
